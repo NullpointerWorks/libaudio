@@ -16,8 +16,8 @@ public class WaveAudioSample implements AudioSample
 	private final int PLAYING = 1;
 	private final int PAUSED = 2;
 	
-	private long currentFrame;
 	private Clip audioclip;
+	private long frame;
     private int status;
 	
     public WaveAudioSample(final String path) 
@@ -31,8 +31,8 @@ public class WaveAudioSample implements AudioSample
     	audioclip = AudioSystem.getClip();
     	audioclip.open(io);
     	
-    	FloatControl volume = (FloatControl) audioclip.getControl(FloatControl.Type.MASTER_GAIN);
-        volume.setValue(0.0f); // Reduce volume by 10 decibels.
+    	//FloatControl volume = (FloatControl) audioclip.getControl(FloatControl.Type.MASTER_GAIN);
+        //volume.setValue(0.0f);
     	
     	audioclip.loop(0);
     	
@@ -40,38 +40,49 @@ public class WaveAudioSample implements AudioSample
     }
     
 	@Override
-	public void play() 
+	public synchronized void play() 
 	{
 		audioclip.start();
     	status = PLAYING;
 	}
 	
 	@Override
-	public void pause() 
+	public synchronized void pause() 
+	{
+		if (status == PLAYING)
+		{
+			frame = audioclip.getMicrosecondPosition();
+			audioclip.stop();
+			status = PAUSED;
+		}
+	}
+	
+	@Override
+	public synchronized void resume() 
+	{
+		if (status == PAUSED)
+		{
+			
+			
+			
+			status = PLAYING;
+		}
+	}
+	
+	@Override
+	public synchronized void jump(long ms) 
 	{
 		
 	}
 	
 	@Override
-	public void resume() 
+	public synchronized void restart() 
 	{
 		
 	}
 	
 	@Override
-	public void jump(long ms) 
-	{
-		
-	}
-	
-	@Override
-	public void restart() 
-	{
-		
-	}
-	
-	@Override
-	public void stop() 
+	public synchronized void stop() 
 	{
 		
 	}
