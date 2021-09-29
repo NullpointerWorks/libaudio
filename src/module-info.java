@@ -8,5 +8,6 @@
  */
 module libnpw.audio 
 {
+	requires java.desktop;
 	
 }
