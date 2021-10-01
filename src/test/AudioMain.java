@@ -44,11 +44,11 @@ public class AudioMain
     	// convert audio info
     	AudioFormat baseFormat = io.getFormat();
         AudioFormat audioFormat = new AudioFormat(	AudioFormat.Encoding.PCM_SIGNED, 
-        											SAMPLERATE_44100HZ, 
+        											baseFormat.getSampleRate(), 
 									        		16, 
-									        		1, //baseFormat.getChannels(), 
-									        		2, //baseFormat.getChannels() * 2, 
-									        		SAMPLERATE_44100HZ, 
+									        		baseFormat.getChannels(), 
+									        		baseFormat.getChannels() * 2, 
+									        		baseFormat.getSampleRate(), 
 									        		false);
         
         // extract byte data
@@ -60,9 +60,6 @@ public class AudioMain
 		SourceDataLine sdl = (SourceDataLine) AudioSystem.getLine(info);
 
 		play(sdl, audioFormat, audioData);
-		
-		
-		System.out.println( ""+ baseFormat.getSampleRate());
 	}
 
 	private void play(SourceDataLine sdl, AudioFormat audioFormat, byte[] audioData) throws LineUnavailableException 
