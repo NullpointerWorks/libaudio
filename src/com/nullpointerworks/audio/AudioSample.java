@@ -40,4 +40,6 @@ public interface AudioSample
 	 * 
 	 */
 	void stop();
+	
+	
 }

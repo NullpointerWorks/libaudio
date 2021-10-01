@@ -1,13 +1,7 @@
 package com.nullpointerworks.audio;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.SourceDataLine;
 
 public class ByteAudioSample implements AudioSample 
 {
@@ -15,21 +9,10 @@ public class ByteAudioSample implements AudioSample
 	private final int PLAYING = 1;
 	private final int PAUSED = 2;
 	
-	private Clip audioclip;
-	private long frame;
     private int status;
 	
-    public ByteAudioSample(byte[] bytes)
+    public ByteAudioSample(SourceDataLine sdl, AudioFormat audioFormat, byte[] bytes)
     {
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	
     	
     	

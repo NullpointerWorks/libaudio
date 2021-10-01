@@ -29,6 +29,10 @@ public class AudioMain
 			e.printStackTrace();
 		}
 	}
+
+	private final float SAMPLERATE_44100HZ = 44100.0f;
+	private final float SAMPLERATE_22050HZ = 22050.0f;
+	private final float SAMPLERATE_11025HZ = 11025.0f;
 	
 	public AudioMain() throws IOException, UnsupportedAudioFileException, LineUnavailableException
 	{
@@ -40,32 +44,38 @@ public class AudioMain
     	// convert audio info
     	AudioFormat baseFormat = io.getFormat();
         AudioFormat audioFormat = new AudioFormat(	AudioFormat.Encoding.PCM_SIGNED, 
-									        		baseFormat.getSampleRate(), 
+        											SAMPLERATE_44100HZ, 
 									        		16, 
-									        		baseFormat.getChannels(), 
-									        		baseFormat.getChannels() * 2, 
-									        		baseFormat.getSampleRate(), 
+									        		1, //baseFormat.getChannels(), 
+									        		2, //baseFormat.getChannels() * 2, 
+									        		SAMPLERATE_44100HZ, 
 									        		false);
         
         // extract byte data
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFormat, io);
-		byte[] audiodata = audioStream.readAllBytes();
+		byte[] audioData = audioStream.readAllBytes();
 		
 		// get data line
-		Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+		Info info = new Info(SourceDataLine.class, audioFormat);
 		SourceDataLine sdl = (SourceDataLine) AudioSystem.getLine(info);
+
+		play(sdl, audioFormat, audioData);
 		
+		
+		System.out.println( ""+ baseFormat.getSampleRate());
+	}
+
+	private void play(SourceDataLine sdl, AudioFormat audioFormat, byte[] audioData) throws LineUnavailableException 
+	{
 		// play the sound
 		sdl.open(audioFormat);
 		sdl.start();
 		
-        sdl.write(audiodata, 0, audiodata.length);
-        
+        sdl.write(audioData, 0, audioData.length);
         sdl.drain();
+        
         sdl.stop();
         sdl.close();
-		
-		
 	}
 	
     
