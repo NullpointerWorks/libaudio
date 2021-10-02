@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 import com.nullpointerworks.audio.AudioSample;
 import com.nullpointerworks.audio.ByteAudioSample;
 
+import test.mvc.AppView;
+
 public class AudioMain 
 {
 	public static void main(String[] args) 
@@ -35,7 +37,7 @@ public class AudioMain
 			e.printStackTrace();
 		}
 	}
-
+	
 	private final float SAMPLERATE_44100HZ = 44100.0f;
 	private final float SAMPLERATE_22050HZ = 22050.0f;
 	private final float SAMPLERATE_11025HZ = 11025.0f;
@@ -43,7 +45,8 @@ public class AudioMain
 	public AudioMain() throws IOException, UnsupportedAudioFileException, LineUnavailableException
 	{
 		// load file
-		String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\skiffy.wav";
+		//String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\skiffy.wav";
+		String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\oxp.wav";
 		
 		File f = new File(audioPath).getAbsoluteFile();
     	AudioInputStream io = AudioSystem.getAudioInputStream(f);
@@ -67,14 +70,14 @@ public class AudioMain
 		SourceDataLine sdl = (SourceDataLine) AudioSystem.getLine(info);
 		
 		
+		//AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
+		//skiffy.play();
 		
 		
-		AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
-		skiffy.play();
+		AppView view = new AppView();
 		
 		
-		
-		
+		view.setVisible(true);
 	}
 	
     

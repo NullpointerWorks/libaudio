@@ -8,6 +8,7 @@
  */
 module libnpw.audio 
 {
-	requires java.desktop;
+	requires transitive java.desktop;
 	
+	exports com.nullpointerworks.audio;
 }
