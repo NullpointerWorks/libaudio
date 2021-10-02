@@ -14,7 +14,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class WaveAudioSample implements AudioSample 
+public class StreamedAudioSample implements AudioSample 
 {
 	private final int STOPPED = 0;
 	private final int PLAYING = 1;
@@ -25,7 +25,7 @@ public class WaveAudioSample implements AudioSample
 	private long frame;
     private int status;
 	
-    public WaveAudioSample(final String path) 
+    public StreamedAudioSample(final String path) 
     {
     	this.path = path;
     	frame = 0l;
