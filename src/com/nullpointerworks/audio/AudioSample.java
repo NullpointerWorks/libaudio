@@ -29,17 +29,16 @@ public interface AudioSample
 	/**
 	 * 
 	 */
+	void stop();
+	
+	/**
+	 * 
+	 */
 	void jump(long ms);
 	
 	/**
 	 * 
 	 */
 	void restart();
-	
-	/**
-	 * 
-	 */
-	void stop();
-	
 	
 }

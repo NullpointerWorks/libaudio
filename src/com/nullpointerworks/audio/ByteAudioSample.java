@@ -77,6 +77,13 @@ public class ByteAudioSample implements AudioSample
 	}
 	
 	@Override
+	public synchronized void stop() 
+	{
+		
+		status = STOPPED;
+	}
+	
+	@Override
 	public synchronized void jump(long ms) 
 	{
 		
@@ -89,12 +96,5 @@ public class ByteAudioSample implements AudioSample
 	{
 		
 		status = PLAYING;
-	}
-	
-	@Override
-	public synchronized void stop() 
-	{
-		
-		status = STOPPED;
 	}
 }

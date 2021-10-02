@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
 import com.nullpointerworks.audio.AudioSample;
+import com.nullpointerworks.audio.ByteAudioSample;
 
 public class AudioMain 
 {
@@ -43,6 +44,7 @@ public class AudioMain
 	{
 		// load file
 		String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\skiffy.wav";
+		
 		File f = new File(audioPath).getAbsoluteFile();
     	AudioInputStream io = AudioSystem.getAudioInputStream(f);
     	
@@ -63,24 +65,17 @@ public class AudioMain
 		// get data line
 		Info info = new Info(SourceDataLine.class, audioFormat);
 		SourceDataLine sdl = (SourceDataLine) AudioSystem.getLine(info);
-
-		play(sdl, audioFormat, audioData);
-	}
-
-	private void play(SourceDataLine sdl, AudioFormat audioFormat, byte[] audioData) throws LineUnavailableException 
-	{
-		// play the sound
-		sdl.open(audioFormat);
-		sdl.start();
 		
-        sdl.write(audioData, 0, audioData.length);
-        sdl.drain();
-        
-        sdl.stop();
-        sdl.close();
+		
+		
+		
+		AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
+		skiffy.play();
+		
+		
+		
+		
 	}
 	
-    
-    
     
 }

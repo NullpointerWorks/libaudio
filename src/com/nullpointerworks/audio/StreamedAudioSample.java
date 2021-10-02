@@ -94,6 +94,14 @@ public class StreamedAudioSample implements AudioSample
 			play();
 		}
 	}
+	
+	@Override
+	public synchronized void stop() 
+	{
+		frame = 0l;
+		audioclip.stop();
+		audioclip.close();
+	}
 
 	@Override
 	public synchronized void jump(long ms) 
@@ -122,13 +130,5 @@ public class StreamedAudioSample implements AudioSample
 		}
 		
 		play();
-	}
-	
-	@Override
-	public synchronized void stop() 
-	{
-		frame = 0l;
-		audioclip.stop();
-		audioclip.close();
 	}
 }
