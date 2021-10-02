@@ -18,19 +18,25 @@ public class ByteAudioSample implements AudioSample
 	
 	private SourceDataLine dataLine;
 	private AudioFormat audioFormat;
-	private byte[] data;
+	private byte[] raw;
+	
+	private int frame;
+	private int frameSize;
     
     public ByteAudioSample(SourceDataLine sdl, AudioFormat af, byte[] bytes)
     {
     	dataLine = sdl;
     	audioFormat = af;
-    	data = bytes;
-    	
+    	raw = bytes;
     	status = STOPPED;
+    	
+    	frame = 0;
+    	frameSize = audioFormat.getFrameSize();
+    	
+    	System.out.println("frameSize: "+frameSize);
     }
-    
 	@Override
-	public synchronized void play() 
+	public void play() 
 	{
 		if (status == PLAYING) return;
 		
@@ -44,30 +50,33 @@ public class ByteAudioSample implements AudioSample
 			return;
 		}
 		
-		dataLine.start();
-
+		int fr = frame * frameSize;
+		
     	status = PLAYING;
-    	dataLine.write(data, 0, data.length);
+		dataLine.start();
+    	dataLine.write(raw, fr, raw.length - fr);
         dataLine.drain();
-        
         dataLine.stop();
         dataLine.close();
+        status = STOPPED;
 	}
 	
 	@Override
-	public synchronized void pause() 
+	public void pause() 
 	{
 		if (status == PLAYING)
 		{
+	        dataLine.stop();
+			frame = (int)dataLine.getFramePosition();
 			
-			
+			dataLine.flush();
 			
 			status = PAUSED;
 		}
 	}
 	
 	@Override
-	public synchronized void resume() 
+	public void resume() 
 	{
 		if (status == PAUSED)
 		{
@@ -79,14 +88,14 @@ public class ByteAudioSample implements AudioSample
 	}
 	
 	@Override
-	public synchronized void stop() 
+	public void stop() 
 	{
 		
 		status = STOPPED;
 	}
 	
 	@Override
-	public synchronized void jump(long ms) 
+	public void jump(long ms) 
 	{
 		
 		
@@ -94,7 +103,7 @@ public class ByteAudioSample implements AudioSample
 	}
 	
 	@Override
-	public synchronized void restart() 
+	public void restart() 
 	{
 		
 		status = PLAYING;

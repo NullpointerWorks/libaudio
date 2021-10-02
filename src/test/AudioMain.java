@@ -25,6 +25,7 @@ import com.nullpointerworks.audio.StreamedAudioSample;
 
 import test.mvc.ActionCommand;
 import test.mvc.AppView;
+import test.mvc.PauseSoundCommand;
 import test.mvc.PlaySoundCommand;
 
 public class AudioMain 
@@ -51,7 +52,7 @@ public class AudioMain
 		//String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\skiffy.wav";
 		String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\oxp.wav";
 		
-		/*
+		//*
 		File f = new File(audioPath).getAbsoluteFile();
     	AudioInputStream io = AudioSystem.getAudioInputStream(f);
     	
@@ -74,15 +75,17 @@ public class AudioMain
 		SourceDataLine sdl = (SourceDataLine) AudioSystem.getLine(info);
 		//*/
 		
-		//AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
-		AudioSample skiffy = new StreamedAudioSample(audioPath);
+		AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
+		//AudioSample skiffy = new StreamedAudioSample(audioPath);
 		
 		
 		ActionCommand acPlay = new PlaySoundCommand(skiffy);
+		ActionCommand acPause = new PauseSoundCommand(skiffy);
 		
 		AppView view = new AppView();
 		
 		view.setPlayCommandAction(acPlay);
+		view.setPauseCommandAction(acPause);
 		view.setVisible(true);
 	}
 	

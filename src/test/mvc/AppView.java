@@ -11,6 +11,7 @@ public class AppView
 	
 	private JFrame wnd;
 	private JButton jbPlay;
+	private JButton jbPause;
 	
 	public AppView()
 	{
@@ -21,11 +22,20 @@ public class AppView
 		jbPlay.setPreferredSize(jbPlay.getSize());
 		jbPlay.setText("Play");
 		
+		jbPause = new JButton();
+		jbPause.setLocation(10, 40);
+		jbPause.setSize(100, 25);
+		jbPause.setPreferredSize(jbPause.getSize());
+		jbPause.setText("Pause");
+		
+		
+		
 		JPanel jpControls = new JPanel();
 		jpControls.setLayout(new AbsoluteLayout());
 		jpControls.setSize(800,600);
 		jpControls.setPreferredSize(jpControls.getSize());
 		jpControls.add(jbPlay);
+		jpControls.add(jbPause);
 		
 		wnd = new JFrame();
 		wnd.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -40,8 +50,6 @@ public class AppView
 		wnd.setVisible(b);
 	}
 	
-	public void setPlayCommandAction(ActionListener l)
-	{
-		jbPlay.addActionListener(l);
-	}
+	public void setPlayCommandAction(ActionListener l) {jbPlay.addActionListener(l);}
+	public void setPauseCommandAction(ActionListener l) {jbPause.addActionListener(l);}
 }
