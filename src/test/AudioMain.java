@@ -21,8 +21,11 @@ import javax.swing.JOptionPane;
 
 import com.nullpointerworks.audio.AudioSample;
 import com.nullpointerworks.audio.ByteAudioSample;
+import com.nullpointerworks.audio.StreamedAudioSample;
 
+import test.mvc.ActionCommand;
 import test.mvc.AppView;
+import test.mvc.PlaySoundCommand;
 
 public class AudioMain 
 {
@@ -48,6 +51,7 @@ public class AudioMain
 		//String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\skiffy.wav";
 		String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\oxp.wav";
 		
+		/*
 		File f = new File(audioPath).getAbsoluteFile();
     	AudioInputStream io = AudioSystem.getAudioInputStream(f);
     	
@@ -68,15 +72,17 @@ public class AudioMain
 		// get data line
 		Info info = new Info(SourceDataLine.class, audioFormat);
 		SourceDataLine sdl = (SourceDataLine) AudioSystem.getLine(info);
-		
+		//*/
 		
 		//AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
-		//skiffy.play();
+		AudioSample skiffy = new StreamedAudioSample(audioPath);
 		
+		
+		ActionCommand acPlay = new PlaySoundCommand(skiffy);
 		
 		AppView view = new AppView();
 		
-		
+		view.setPlayCommandAction(acPlay);
 		view.setVisible(true);
 	}
 	

@@ -32,6 +32,8 @@ public class ByteAudioSample implements AudioSample
 	@Override
 	public synchronized void play() 
 	{
+		if (status == PLAYING) return;
+		
 		try 
 		{
 			dataLine.open(audioFormat);

@@ -50,8 +50,8 @@ public class StreamedAudioSample implements AudioSample
 		File f = new File(path).getAbsoluteFile();
     	AudioInputStream io = AudioSystem.getAudioInputStream(f);
     	audioclip = AudioSystem.getClip();
-    	audioclip.open(io);
     	audioclip.loop(0);
+    	audioclip.open(io);
 	}
     
 	@Override
