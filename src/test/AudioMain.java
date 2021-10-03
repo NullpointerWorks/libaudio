@@ -75,8 +75,8 @@ public class AudioMain
 		SourceDataLine sdl = (SourceDataLine) AudioSystem.getLine(info);
 		//*/
 		
-		AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
-		//AudioSample skiffy = new StreamedAudioSample(audioPath);
+		//AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
+		AudioSample skiffy = new StreamedAudioSample(audioPath);
 		
 		
 		ActionCommand acPlay = new PlaySoundCommand(skiffy);

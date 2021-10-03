@@ -50,11 +50,9 @@ public class ByteAudioSample implements AudioSample
 			return;
 		}
 		
-		int fr = frame * frameSize;
-		
     	status = PLAYING;
 		dataLine.start();
-    	dataLine.write(raw, fr, raw.length - fr);
+    	dataLine.write(raw, 0, raw.length);
         dataLine.drain();
         dataLine.stop();
         dataLine.close();
@@ -67,9 +65,15 @@ public class ByteAudioSample implements AudioSample
 		if (status == PLAYING)
 		{
 	        dataLine.stop();
-			frame = (int)dataLine.getFramePosition();
-			
 			dataLine.flush();
+			frame += (int)dataLine.getFramePosition();
+			
+			//float micro = (float)dataLine.getMicrosecondPosition();
+			//float sec = micro * 0.000001f;
+			//float currFrame = sec * audioFormat.getSampleRate();
+			//frame += (int)(currFrame + 0.5f);
+
+	    	System.out.println("frame: "+frame);
 			
 			status = PAUSED;
 		}
@@ -80,17 +84,24 @@ public class ByteAudioSample implements AudioSample
 	{
 		if (status == PAUSED)
 		{
-			
-			
+			int fr = frame * frameSize;
 			
 			status = PLAYING;
+			dataLine.start();
+	    	dataLine.write(raw, fr, raw.length - fr);
+	        dataLine.drain();
+	        dataLine.stop();
+	        dataLine.close();
+	        status = STOPPED;
+	        
+	        
 		}
 	}
 	
 	@Override
 	public void stop() 
 	{
-		
+		frame = 0;
 		status = STOPPED;
 	}
 	
