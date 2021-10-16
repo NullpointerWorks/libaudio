@@ -52,7 +52,7 @@ public class AudioMain
 		//String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\skiffy.wav";
 		String audioPath = "D:\\Development\\Audio\\Workspace\\Skiffy\\oxp.wav";
 		
-		//*
+		/*
 		File f = new File(audioPath).getAbsoluteFile();
     	AudioInputStream io = AudioSystem.getAudioInputStream(f);
     	
@@ -73,11 +73,13 @@ public class AudioMain
 		// get data line
 		Info info = new Info(SourceDataLine.class, audioFormat);
 		SourceDataLine sdl = (SourceDataLine) AudioSystem.getLine(info);
-		//*/
 		
-		//AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
+		
+		AudioSample skiffy = new ByteAudioSample(sdl, audioFormat, audioData);
+		/*/
+		
 		AudioSample skiffy = new StreamedAudioSample(audioPath);
-		
+		//*/
 		
 		ActionCommand acPlay = new PlaySoundCommand(skiffy);
 		ActionCommand acPause = new PauseSoundCommand(skiffy);

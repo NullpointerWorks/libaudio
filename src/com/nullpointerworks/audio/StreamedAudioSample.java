@@ -31,33 +31,39 @@ public class StreamedAudioSample implements AudioSample
     	frame = 0l;
     	status = STOPPED;
     	
-    	try 
-    	{
-			reset(path);
-		} 
-    	catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) 
-    	{
-			e.printStackTrace();
-		}
+    	reset(path);
     	
     	//FloatControl volume = (FloatControl) audioclip.getControl(FloatControl.Type.MASTER_GAIN);
         //volume.setValue(0.0f);
     }
 	
-	private void reset(final String path) 
-			throws LineUnavailableException, IOException, UnsupportedAudioFileException 
+	private boolean reset(final String path) 
 	{
-		File f = new File(path).getAbsoluteFile();
-    	AudioInputStream io = AudioSystem.getAudioInputStream(f);
-    	audioclip = AudioSystem.getClip();
-    	audioclip.loop(0);
-    	audioclip.open(io);
+    	try 
+    	{
+			File f = new File(path).getAbsoluteFile();
+	    	AudioInputStream io = AudioSystem.getAudioInputStream(f);
+	    	audioclip = AudioSystem.getClip();
+	    	audioclip.loop(0);
+	    	audioclip.open(io);
+	    	
+		} 
+		catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
+    	return true;
 	}
     
 	@Override
 	public synchronized void play() 
 	{
-		audioclip.setMicrosecondPosition(frame);
+		if (status == PLAYING)
+		{
+			stop();
+		}
+		audioclip.setMicrosecondPosition(0);
 		audioclip.start();
     	status = PLAYING;
 	}
@@ -80,18 +86,10 @@ public class StreamedAudioSample implements AudioSample
 		{
 			audioclip.stop();
 			audioclip.close();
-			
-			try 
-			{
-				reset(path);
-			} 
-			catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) 
-			{
-				e.printStackTrace();
-				return;
-			}
-			
-			play();
+			reset(path);
+			audioclip.setMicrosecondPosition(frame);
+			audioclip.start();
+	    	status = PLAYING;
 		}
 	}
 	
@@ -118,17 +116,7 @@ public class StreamedAudioSample implements AudioSample
 	public synchronized void restart() 
 	{
 		stop();
-		
-		try 
-		{
-			reset(path);
-		} 
-		catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) 
-		{
-			e.printStackTrace();
-			return;
-		}
-		
+		reset(path);
 		play();
 	}
 }
