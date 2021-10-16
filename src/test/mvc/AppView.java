@@ -12,6 +12,8 @@ public class AppView
 	private JFrame wnd;
 	private JButton jbPlay;
 	private JButton jbPause;
+	private JButton jbResume;
+	private JButton jbStop;
 	
 	public AppView()
 	{
@@ -28,6 +30,18 @@ public class AppView
 		jbPause.setPreferredSize(jbPause.getSize());
 		jbPause.setText("Pause");
 		
+		jbResume = new JButton();
+		jbResume.setLocation(10, 70);
+		jbResume.setSize(100, 25);
+		jbResume.setPreferredSize(jbResume.getSize());
+		jbResume.setText("Resume");
+		
+		jbStop = new JButton();
+		jbStop.setLocation(10, 100);
+		jbStop.setSize(100, 25);
+		jbStop.setPreferredSize(jbStop.getSize());
+		jbStop.setText("Stop");
+		
 		
 		
 		JPanel jpControls = new JPanel();
@@ -36,6 +50,8 @@ public class AppView
 		jpControls.setPreferredSize(jpControls.getSize());
 		jpControls.add(jbPlay);
 		jpControls.add(jbPause);
+		jpControls.add(jbResume);
+		jpControls.add(jbStop);
 		
 		wnd = new JFrame();
 		wnd.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -52,4 +68,6 @@ public class AppView
 	
 	public void setPlayCommandAction(ActionListener l) {jbPlay.addActionListener(l);}
 	public void setPauseCommandAction(ActionListener l) {jbPause.addActionListener(l);}
+	public void setResumeCommandAction(ActionListener l) {jbResume.addActionListener(l);}
+	public void setStopCommandAction(ActionListener l) {jbStop.addActionListener(l);}
 }

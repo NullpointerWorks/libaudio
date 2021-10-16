@@ -27,6 +27,8 @@ import test.mvc.ActionCommand;
 import test.mvc.AppView;
 import test.mvc.PauseSoundCommand;
 import test.mvc.PlaySoundCommand;
+import test.mvc.ResumeSoundCommand;
+import test.mvc.StopSoundCommand;
 
 public class AudioMain 
 {
@@ -83,11 +85,15 @@ public class AudioMain
 		
 		ActionCommand acPlay = new PlaySoundCommand(skiffy);
 		ActionCommand acPause = new PauseSoundCommand(skiffy);
+		ActionCommand acResume = new ResumeSoundCommand(skiffy);
+		ActionCommand acStop = new StopSoundCommand(skiffy);
 		
 		AppView view = new AppView();
 		
 		view.setPlayCommandAction(acPlay);
 		view.setPauseCommandAction(acPause);
+		view.setResumeCommandAction(acResume);
+		view.setStopCommandAction(acStop);
 		view.setVisible(true);
 	}
 	
