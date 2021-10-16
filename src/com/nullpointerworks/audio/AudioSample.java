@@ -19,6 +19,11 @@ public interface AudioSample
 	/**
 	 * 
 	 */
+	void stop();
+	
+	/**
+	 * 
+	 */
 	void pause();
 	
 	/**
@@ -29,16 +34,6 @@ public interface AudioSample
 	/**
 	 * 
 	 */
-	void stop();
-	
-	/**
-	 * 
-	 */
-	void jump(long ms);
-	
-	/**
-	 * 
-	 */
-	void restart();
+	void jump(long o);
 	
 }

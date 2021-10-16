@@ -22,13 +22,13 @@ public class StreamedAudioSample implements AudioSample
 	
 	private final String path;
 	private Clip audioclip;
-	private long frame;
+	private long usec;
     private int status;
 	
     public StreamedAudioSample(final String path) 
     {
     	this.path = path;
-    	frame = 0l;
+    	usec = 0l;
     	status = STOPPED;
     	
     	reset(path);
@@ -46,7 +46,6 @@ public class StreamedAudioSample implements AudioSample
 	    	audioclip = AudioSystem.getClip();
 	    	audioclip.loop(0);
 	    	audioclip.open(io);
-	    	
 		} 
 		catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) 
 		{
@@ -59,13 +58,24 @@ public class StreamedAudioSample implements AudioSample
 	@Override
 	public synchronized void play() 
 	{
-		if (status == PLAYING)
+		if (status != STOPPED)
 		{
 			stop();
+	    	status = STOPPED;
+			if (!reset(path)) return;
 		}
+		
 		audioclip.setMicrosecondPosition(0);
 		audioclip.start();
     	status = PLAYING;
+	}
+	
+	@Override
+	public synchronized void stop() 
+	{
+		usec = 0l;
+		audioclip.stop();
+		audioclip.close();
 	}
 	
 	@Override
@@ -73,7 +83,7 @@ public class StreamedAudioSample implements AudioSample
 	{
 		if (status == PLAYING)
 		{
-			frame = audioclip.getMicrosecondPosition();
+			usec = audioclip.getMicrosecondPosition();
 			audioclip.stop();
 			status = PAUSED;
 		}
@@ -86,37 +96,23 @@ public class StreamedAudioSample implements AudioSample
 		{
 			audioclip.stop();
 			audioclip.close();
-			reset(path);
-			audioclip.setMicrosecondPosition(frame);
+			if (!reset(path)) 
+			{
+		    	status = STOPPED;
+				return;
+			}
+			audioclip.setMicrosecondPosition(usec);
 			audioclip.start();
 	    	status = PLAYING;
 		}
 	}
 	
 	@Override
-	public synchronized void stop() 
+	public synchronized void jump(long off) 
 	{
-		frame = 0l;
-		audioclip.stop();
-		audioclip.close();
-	}
-
-	@Override
-	public synchronized void jump(long ms) 
-	{
-		if (ms < 0) return;
-		if (ms > audioclip.getMicrosecondLength()) return;
-		
-		stop();
-		frame = ms;
-		play();
-	}
-	
-	@Override
-	public synchronized void restart() 
-	{
-		stop();
-		reset(path);
-		play();
+		if (off < 0) off = 0l;
+		if (off > audioclip.getMicrosecondLength()) off = audioclip.getMicrosecondLength();
+		status = PAUSED;
+		resume();
 	}
 }

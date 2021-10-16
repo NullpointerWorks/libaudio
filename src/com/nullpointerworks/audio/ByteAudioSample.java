@@ -35,6 +35,7 @@ public class ByteAudioSample implements AudioSample
     	
     	System.out.println("frameSize: "+frameSize);
     }
+    
 	@Override
 	public void play() 
 	{
@@ -109,13 +110,6 @@ public class ByteAudioSample implements AudioSample
 	public void jump(long ms) 
 	{
 		
-		
-		status = PLAYING;
-	}
-	
-	@Override
-	public void restart() 
-	{
 		
 		status = PLAYING;
 	}
