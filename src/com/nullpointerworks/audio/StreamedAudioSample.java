@@ -11,26 +11,42 @@ import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineEvent.Type;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class StreamedAudioSample implements AudioSample 
+public class StreamedAudioSample implements AudioSample
 {
 	private final int STOPPED = 0;
 	private final int PLAYING = 1;
 	private final int PAUSED = 2;
 	
 	private final String path;
+	private LineListener ll;
 	private Clip audioclip;
 	private long usec;
     private int status;
 	
+    
     public StreamedAudioSample(final String path) 
     {
+    	ll = new LineListener() 
+    	{
+    		@Override
+    		public void update(LineEvent event) 
+    		{
+    			if (event.getType() == Type.STOP)
+    			{
+    				status = STOPPED;
+    			}
+    		}
+    	};
+    	
     	this.path = path;
     	usec = 0l;
     	status = STOPPED;
-    	
     	reset(path);
     	
     	//FloatControl volume = (FloatControl) audioclip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -44,6 +60,7 @@ public class StreamedAudioSample implements AudioSample
 			File f = new File(path).getAbsoluteFile();
 	    	AudioInputStream io = AudioSystem.getAudioInputStream(f);
 	    	audioclip = AudioSystem.getClip();
+	    	audioclip.addLineListener(ll);
 	    	audioclip.loop(0);
 	    	audioclip.open(io);
 		} 

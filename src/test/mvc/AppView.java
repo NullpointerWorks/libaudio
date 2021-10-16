@@ -46,7 +46,7 @@ public class AppView
 		
 		JPanel jpControls = new JPanel();
 		jpControls.setLayout(new AbsoluteLayout());
-		jpControls.setSize(800,600);
+		jpControls.setSize(640,480);
 		jpControls.setPreferredSize(jpControls.getSize());
 		jpControls.add(jbPlay);
 		jpControls.add(jbPause);
