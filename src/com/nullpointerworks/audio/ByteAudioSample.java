@@ -61,6 +61,13 @@ public class ByteAudioSample implements AudioSample
 	}
 	
 	@Override
+	public void stop() 
+	{
+		frame = 0;
+		status = STOPPED;
+	}
+	
+	@Override
 	public void pause() 
 	{
 		if (status == PLAYING)
@@ -97,13 +104,6 @@ public class ByteAudioSample implements AudioSample
 	        
 	        
 		}
-	}
-	
-	@Override
-	public void stop() 
-	{
-		frame = 0;
-		status = STOPPED;
 	}
 	
 	@Override
