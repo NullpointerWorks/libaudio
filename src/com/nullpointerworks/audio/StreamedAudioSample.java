@@ -29,7 +29,6 @@ public class StreamedAudioSample implements AudioSample
 	private long usec;
     private int status;
 	
-    
     public StreamedAudioSample(final String path) 
     {
     	ll = new LineListener() 

@@ -9,6 +9,11 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
+/**
+ * TODO under construction
+ * @author Michiel
+ *
+ */
 public class ByteAudioSample implements AudioSample 
 {
 	private final int STOPPED = 0;
